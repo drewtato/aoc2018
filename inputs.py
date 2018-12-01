@@ -35,7 +35,7 @@ go = '''
 with open('auth', 'r') as auth:
     cookies = {'session': auth.read()}
 
-while not os.path.isfile(f'day{day}/input.txt'):
+while True:
     input = requests.get(f'https://adventofcode.com/2018/day/{day}/input', cookies=cookies)
     if input.status_code != 200:
         print(f'{input.status_code}, retry in 10')
@@ -45,3 +45,4 @@ while not os.path.isfile(f'day{day}/input.txt'):
         print(go)
         with open(f'day{day}/input.txt', 'wb') as f:
             f.write(input.content)
+        break

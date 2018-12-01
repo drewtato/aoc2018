@@ -1,11 +1,6 @@
-"""
-This runs in constant space, but still takes O(n^2) time.
-(as opposed to O(n*iterations) time for the original answer)
-There's surely a way to get it to run in constant time,
-but I struggle.
-"""
-
 with open('input.txt', 'r') as input:
+    
+    # # This one ran in constant space, but O(n^2)
     # freq = 0
     # visited = [0]
     # for line in input:
@@ -24,7 +19,7 @@ with open('input.txt', 'r') as input:
     #         break
     
 
-# This one will be O(n) I promise
+    # This one is O(n)
     freq = 0
     visited = []
     # Get all first iteration frequencies

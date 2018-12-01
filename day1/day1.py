@@ -17,4 +17,3 @@ with open('input.txt', 'r') as input:
                 break
             else:
                 visited.add(freq)
-    

@@ -2,8 +2,16 @@ import requests
 import sys
 import os
 import time
+import shutil
 
 day = sys.argv[1]
+try:
+    os.mkdir(f'day{day}')
+except FileExistsError:
+    pass
+
+if not os.path.isfile(f'day{day}/day{day}.py'):
+    shutil.copyfile('dayx.py', f'day{day}/day{day}.py')
 
 go = '''
             GGGGGGGGGGGGG         OOOOOOOOO     

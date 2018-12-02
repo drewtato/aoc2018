@@ -1,4 +1,5 @@
 with open('input.txt', 'r') as input:
+    # Working example that uses a ton of space for the set
     seenWords = set()
     try:
         for word in input:

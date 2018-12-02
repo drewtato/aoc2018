@@ -14,22 +14,22 @@ if not os.path.isfile(f'day{day}/day{day}.py'):
     shutil.copyfile('dayx.py', f'day{day}/day{day}.py')
 
 go = '''
-            GGGGGGGGGGGGG         OOOOOOOOO     
-         GGG::::::::::::G       OO:::::::::OO   
-       GG:::::::::::::::G     OO:::::::::::::OO 
-      G:::::GGGGGGGG::::G    O:::::::OOO:::::::O
-     G:::::G       GGGGGG    O::::::O   O::::::O
-    G:::::G                  O:::::O     O:::::O
-    G:::::G                  O:::::O     O:::::O
-    G:::::G    GGGGGGGGGG    O:::::O     O:::::O
-    G:::::G    G::::::::G    O:::::O     O:::::O
-    G:::::G    GGGGG::::G    O:::::O     O:::::O
+                     GGGGGGGGGGGGG         OOOOOOOOO     
+                  GGG::::::::::::G       OO:::::::::OO   
+               GG:::::::::::::::G     OO:::::::::::::OO 
+             G:::::GGGGGGGG::::G    O:::::::OOO:::::::O
+           G:::::G       GGGGGG    O::::::O   O::::::O
+         G:::::G                  O:::::O     O:::::O
+        G:::::G                  O:::::O     O:::::O
+       G:::::G    GGGGGGGGGG    O:::::O     O:::::O
+      G:::::G    G::::::::G    O:::::O     O:::::O
+     G:::::G    GGGGG::::G    O:::::O     O:::::O
     G:::::G        G::::G    O:::::O     O:::::O
-     G:::::G       G::::G    O::::::O   O::::::O
-      G:::::GGGGGGGG::::G    O:::::::OOO:::::::O
-       GG:::::::::::::::G     OO:::::::::::::OO 
-         GGG::::::GGG:::G       OO:::::::::OO   
-            GGGGGG   GGGG         OOOOOOOOO 
+    G:::::G       G::::G    O::::::O   O::::::O
+    G:::::GGGGGGGG::::G    O:::::::OOO:::::::O
+    GG:::::::::::::::G     OO:::::::::::::OO 
+     GGG::::::GGG:::G       OO:::::::::OO   
+       GGGGGG   GGGG         OOOOOOOOO 
 '''
 
 with open('auth', 'r') as auth:

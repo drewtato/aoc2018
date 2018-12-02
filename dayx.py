@@ -1,2 +1,7 @@
 with open('input.txt', 'r') as input:
-    pass
+    input = input.read()
+    ans = 0
+    
+    
+    
+    print(ans)

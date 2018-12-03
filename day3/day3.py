@@ -37,7 +37,10 @@ with open('input.txt', 'r') as input:
         if sys.argv[1]:
             with open('fab.txt', 'w') as fab:
                 for i,square in enumerate(fabric):
-                    fab.write(f'{square: 2}')
+                    if square:
+                        fab.write(f'{square: 2}')
+                    else: 
+                        fab.write('  ')
                     if not (i + 1)%LENGTH:
                         fab.write('\n')
     except IndexError:

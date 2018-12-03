@@ -1,4 +1,5 @@
 import itertools
+import sys
 
 LENGTH = 1000
 
@@ -31,12 +32,16 @@ with open('input.txt', 'r') as input:
     for square in fabric:
         if square > 1:
             ans += 1
-
-    with open('fab.txt', 'w') as fab:
-        for i,square in enumerate(fabric):
-            fab.write(f'{square: 2}')
-            if not (i + 1)%LENGTH:
-                fab.write('\n')
+    
+    try :
+        if sys.argv[1]:
+            with open('fab.txt', 'w') as fab:
+                for i,square in enumerate(fabric):
+                    fab.write(f'{square: 2}')
+                    if not (i + 1)%LENGTH:
+                        fab.write('\n')
+    except IndexError:
+        pass
     print(ans)
     
     # Part 2
@@ -51,4 +56,5 @@ with open('input.txt', 'r') as input:
                     works = False
         if works:
             print(rect[0])
+            # print(rect)
             break

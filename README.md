@@ -1,5 +1,11 @@
 # Advent of Code 2018
 
+A visualization of Day 3:
+
+![day3](day3/fabric.png)
+
+[Link to a graph of day 4](http://htmlpreview.github.io/?https://github.com/drewtato/aoc2018/blob/master/day4/stats.html)
+
 Stats:
 
 ```text

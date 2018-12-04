@@ -1,0 +1,8 @@
+body {
+    margin: 0;
+}
+
+.point>path {
+    stroke-width: 1px!important;
+    stroke: #222;
+}

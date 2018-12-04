@@ -2,11 +2,11 @@
 
 A visualization of Day 3:
 
-![day3](day3/fabric.png)
+![day3](day03/fabric.png)
 
-[Link to a graph of day 4](https://htmlpreview.github.io/?https://github.com/drewtato/aoc2018/blob/master/day4/stats.html)
+[Link to a graph of day 4](https://htmlpreview.github.io/?https://github.com/drewtato/aoc2018/blob/master/day04/stats.html)
 
-![day4](day4/stats.png)
+![day4](day04/stats.png)
 
 Stats:
 

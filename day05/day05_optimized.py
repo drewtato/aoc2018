@@ -75,11 +75,15 @@ for index,letter in enumerate(input):
             # Start 1 behind and 1 in front of the current letter
             backx -= 1
             forwx += 1
-            # Sometimes we hit a letter that is the same as our 'letter'.
+            
+            # This is the strange part: If CORRECT is False, it works for my
+            # actual input. If CORRECT is True, it works for 'acAca'.
             if CORRECT:
+            # Sometimes we hit a letter that would already have been removed.
                 while backx in reduct[1]:
                     backx -= 1
             else:
+            # Sometimes we hit a letter that is the same as our 'letter'.
                 while input[backx].lower() == letter:
                     backx -= 1
             # In front, skip all letters like our 'letter'.

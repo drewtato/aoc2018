@@ -4,14 +4,14 @@ import os
 import time
 import shutil
 
-day = sys.argv[1]
+day = int(sys.argv[1])
 try:
-    os.mkdir(f'day{day}')
+    os.mkdir(f'day{day:02}')
 except FileExistsError:
     pass
 
-if not os.path.isfile(f'day{day}/day{day}.py'):
-    shutil.copyfile('dayx.py', f'day{day}/day{day}.py')
+if not os.path.isfile(f'day{day:02}/day{day:02}.py'):
+    shutil.copyfile('dayx.py', f'day{day:02}/day{day:02}.py')
 
 go = '''
                      GGGGGGGGGGGGG         OOOOOOOOO     
@@ -43,6 +43,6 @@ while True:
     else:
         print('200, saving file!')
         print(go)
-        with open(f'day{day}/input.txt', 'wb') as f:
+        with open(f'day{day:02}/input.txt', 'wb') as f:
             f.write(input.content)
         break

@@ -1,9 +1,10 @@
 import itertools
+from collections import Counter as Co
+from collections import defaultdict as dd
 
 with open('input.txt', 'r') as input:
     input = input.read()
-    ans = 0
-    
-    
-    
-    print(ans)
+
+while input[-1].isspace():
+    input = input[:-1]
+

@@ -26,7 +26,7 @@ with open('input.txt', 'r') as input:
     print(len(input))
     
     # part 2
-    letters = 'qwertyuiopasdfghjklzxcvbnm'
+    letters = 'abcdefghijklmnopqrstuvwxyz'
     lengths = []
     
     for letter in letters:
@@ -62,3 +62,5 @@ with open('input.txt', 'r') as input:
     
     # print(badone, lengths, input)
     print(minimum)
+    # for l,let in zip(lengths, letters):
+    #     print(let, len(input) - l)

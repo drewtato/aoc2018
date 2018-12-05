@@ -77,7 +77,19 @@ for index,letter in enumerate(input):
             forwx += 1
             
             # This is the strange part: If CORRECT is False, it works for my
-            # actual input. If CORRECT is True, it works for 'acAca'.
+            # actual input. If CORRECT is True, it works for 'acAca'. 'acAca'
+            # should give 1, but this script says it is 0, as expected.
+            # More tests: 
+                # Adding 'avAva' (v is best letter) to the beginning of the input 
+                # causes the bug to show. The count is exactly 1 off, as expected.
+                # 
+                # Looking through the count of all the letters for this and the
+                # actually correct day05.py, only 'u' is incorrect (it is supposed to
+                # be 416 but comes out to 772 😲) on my actual input.
+                # 
+                # Turning on CORRECT makes 'u' correct but 'v' wrong at 4545 instead
+                # of 5694 (count of removed letters, not input length). ALl other 
+                # letters are exactly the same.
             if CORRECT:
             # Sometimes we hit a letter that would already have been removed.
                 while backx in reduct[1]:
@@ -113,3 +125,5 @@ for index,letter in enumerate(input):
 best = max(reductions.values())
 # The answer is the length of the remaining string, so subtract.
 print(len(input) - best[0])
+# for key,val in sorted(reductions.items()):
+#     print(key, val[0])

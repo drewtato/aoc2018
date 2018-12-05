@@ -32,12 +32,12 @@ print(len(input))
 # count(indicies) << len(input)
 reductions = dd(lambda: [0, set()])
 
-# addif takes a letter and index and only increments reduct if the 
-# index hasn't been counted yet. The indicies are remembered in the
-# set from above.
+# addif takes a letter and index and only increments reduct if 
+# the index hasn't been counted yet. reduct is an item from the 
+# dict reductions. The indicies are remembered in the set from above.
 def addif(reduct, index, letter):
     # Check if index is already in the set
-    if not index in reductions[letter][1]:
+    if not index in reduct[1]:
         # Add the index to the set (if there is a way to do this
         # and the last line in one go, please create an issue, ty)
         reduct[1].add(index)

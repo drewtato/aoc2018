@@ -98,7 +98,7 @@ for index,letter in enumerate(input):
             break
 
 # Simply find which character had the most removals.
-# Remember that values is [counter, set], so the counter
+# Remember that a value is [counter, set], so the counter
 # is maxed (and set is used for ties, which don't happen).
 best = max(reductions.values())
 # The answer is the length of the remaining string, so subtract.

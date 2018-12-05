@@ -16,7 +16,7 @@ for letter in input:
         except IndexError:
             last = ''
         continue
-    
+
     last = letter
     newinput += last
 
@@ -26,14 +26,18 @@ input = newinput
 print(len(input))
 
 # Part 2
-# reductions is a dict that maps letters to a counter and a set 
-# of already counted indicies. I used a set because there are
-# usually not too many indicies that need to be counted, aka
-# count(indicies) << len(input)
+
+# reductions is a dict that maps letters to a counter and a set
+# of already counted indicies. It keeps track of which indicies
+# of input would be removed if the corresponding key (a lowercase
+# letter) was chosen as the best. This is to avoid double-counting,
+# which happens since we do not store a separate input for each letter.
+# I used a set because there are usually not too many indicies 
+# that need to be counted, aka count(indicies) << len(input)
 reductions = dd(lambda: [0, set()])
 
-# addif takes an index and only increments reduct if 
-# the index hasn't been counted yet. reduct is an item from the 
+# addif takes an index and only increments reduct if
+# the index hasn't been counted yet. reduct is an item from the
 # dict reductions. The indicies are remembered in the set from above.
 def addif(reduct, index):
     # Check if index is already in the set
@@ -44,11 +48,11 @@ def addif(reduct, index):
         # Increment the count
         reduct[0] += 1
 
-# Similar to the Part 1 loop, except we are going to need the 
+# Similar to the Part 1 loop, except we are going to need the
 # index a lot
 for index,letter in enumerate(input):
     # make the current letter lowercase (the upper and lower
-    # are counted together). This letter is what we are dealing 
+    # are counted together). This letter is what we are dealing
     # with this loop, so all references to reductions will
     # be reductions[letter].
     letter = letter.lower()
@@ -56,10 +60,10 @@ for index,letter in enumerate(input):
     # The current letter, obviously, would get removed if we
     # chose this letter as the best one.
     addif(reduct, index)
-    
+
     backx = index
     forwx = index
-    # Now we iterate forward and backward from the current letter 
+    # Now we iterate forward and backward from the current letter
     # to find how many pairings would collapse if we removed
     # this letter
     while True:
@@ -71,7 +75,7 @@ for index,letter in enumerate(input):
             forwx += 1
             # Sometimes we hit a letter that is the same as our 'letter'.
             # Note that we do not check reductions[letter][1], aka reduct[1],
-            # for this. I think this has to do with the 'cCc' example from 
+            # for this. I think this has to do with the 'cCc' example from
             # the prompt, but am not entirely sure. In any case, letters that
             # aren't our 'letter' must not be skipped.
             while input[backx].lower() == letter:
@@ -79,11 +83,11 @@ for index,letter in enumerate(input):
             # In front, skip all letters like our 'letter'.
             while input[forwx].lower() == letter:
                 forwx += 1
-            
+
             # Get the character at that position
             backchar = input[backx]
             forwchar = input[forwx]
-            
+
             # Check for collapses as in Part 1.
             if forwchar.lower() == backchar.lower() and forwchar != backchar:
                 # Add both back index and forward index to reductions.
@@ -92,7 +96,7 @@ for index,letter in enumerate(input):
             # If we did not find a match, then we are done collapsing.
             else:
                 break
-        # If we have hit an end of the input, there are definitely no 
+        # If we have hit an end of the input, there are definitely no
         # more characters to remove. We break.
         except IndexError:
             break

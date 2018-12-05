@@ -69,26 +69,36 @@ for index,letter in enumerate(input):
             # Start 1 behind and 1 in front of the current letter
             backx -= 1
             forwx += 1
-            # Sometimes we hit a letter that would have already been removed.
-            while backx in reductions[letter][1]:
+            # Sometimes we hit a letter that is the same as our 'letter'.
+            # Note that we do not check reductions[letter][1] for this. I
+            # think this has to do with the 'cCc' example from the prompt,
+            # but am not entirely sure. In any case, letters already counted
+            # must not be skipped.
+            while input[backx].lower() == letter:
                 backx -= 1
-            # And sometimes the 
+            # In front, all we have are letters like our 'letter'. Skip these.
             while input[forwx].lower() == letter:
                 forwx += 1
             
+            # Get the character at that position
             backchar = input[backx]
             forwchar = input[forwx]
             
+            # Check for collapses as in Part 1. I particularly like
+            # a.islower() == b.isupper().
             if forwchar.lower() == backchar.lower() and forwchar.islower() == backchar.isupper():
+                # Add both back index and forward index to reductions.
                 for x in [backx, forwx]:
                     addif(reductions, x, letter)
-
+            # If we did not find a match, then we are done collapsing.
             else:
                 break
         # If we have hit an end of the input, there are definitely no 
-        # more characters to remove. We break
+        # more characters to remove. We break.
         except IndexError:
             break
 
+# Simply find which character had the most removals.
 best = max(reductions.values())
+# The answer is the length of the remaining string, so subtract.
 print(len(input) - best[0])

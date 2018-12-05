@@ -1,5 +1,4 @@
 from collections import defaultdict as dd
-from collections import Counter as Co
 import itertools as it
 
 with open('input.txt', 'r') as input:
@@ -33,17 +32,17 @@ print(len(input))
 # count(indicies) << len(input)
 reductions = dd(lambda: [0, set()])
 
-# addif takes a letter and index and only increments reductions[letter]
-# if the index hasn't been counted yet. The indicies are stored in the
+# addif takes a letter and index and only increments reduct if the 
+# index hasn't been counted yet. The indicies are remembered in the
 # set from above.
-def addif(reductions, index, letter):
+def addif(reduct, index, letter):
     # Check if index is already in the set
     if not index in reductions[letter][1]:
         # Add the index to the set (if there is a way to do this
         # and the last line in one go, please create an issue, ty)
-        reductions[letter][1].add(index)
+        reduct[1].add(index)
         # Increment the count
-        reductions[letter][0] += 1
+        reduct[0] += 1
 
 # Similar to the Part 1 loop, except we are going to need the 
 # index a lot
@@ -53,9 +52,10 @@ for index,letter in enumerate(input):
     # with this loop, so all references to reductions will
     # be reductions[letter].
     letter = letter.lower()
+    reduct = reductions[letter]
     # The current letter, obviously, would get removed if we
     # chose this letter as the best one.
-    addif(reductions, index, letter)
+    addif(reduct, index, letter)
     
     backx = index
     forwx = index
@@ -70,10 +70,10 @@ for index,letter in enumerate(input):
             backx -= 1
             forwx += 1
             # Sometimes we hit a letter that is the same as our 'letter'.
-            # Note that we do not check reductions[letter][1] for this. I
-            # think this has to do with the 'cCc' example from the prompt,
-            # but am not entirely sure. In any case, letters already counted
-            # must not be skipped.
+            # Note that we do not check reductions[letter][1], aka reduct[1],
+            # for this. I think this has to do with the 'cCc' example from 
+            # the prompt, but am not entirely sure. In any case, letters 
+            # already counted must not be skipped.
             while input[backx].lower() == letter:
                 backx -= 1
             # In front, all we have are letters like our 'letter'. Skip these.
@@ -89,7 +89,7 @@ for index,letter in enumerate(input):
             if forwchar.lower() == backchar.lower() and forwchar.islower() == backchar.isupper():
                 # Add both back index and forward index to reductions.
                 for x in [backx, forwx]:
-                    addif(reductions, x, letter)
+                    addif(reduct, x, letter)
             # If we did not find a match, then we are done collapsing.
             else:
                 break
@@ -99,6 +99,8 @@ for index,letter in enumerate(input):
             break
 
 # Simply find which character had the most removals.
+# Remember that values is [counter, set], so the counter
+# is maxed (and set is used for ties, which don't happen).
 best = max(reductions.values())
 # The answer is the length of the remaining string, so subtract.
 print(len(input) - best[0])

@@ -1,6 +1,8 @@
 from collections import defaultdict as dd
 import itertools as it
 
+CORRECT = True
+
 with open('input.txt', 'r') as input:
     input = input.read().strip()
 
@@ -74,12 +76,12 @@ for index,letter in enumerate(input):
             backx -= 1
             forwx += 1
             # Sometimes we hit a letter that is the same as our 'letter'.
-            # Note that we do not check reductions[letter][1], aka reduct[1],
-            # for this. I think this has to do with the 'cCc' example from
-            # the prompt, but am not entirely sure. In any case, letters that
-            # aren't our 'letter' must not be skipped.
-            while input[backx].lower() == letter:
-                backx -= 1
+            if CORRECT:
+                while backx in reduct[1]:
+                    backx -= 1
+            else:
+                while input[backx].lower() == letter:
+                    backx -= 1
             # In front, skip all letters like our 'letter'.
             while input[forwx].lower() == letter:
                 forwx += 1

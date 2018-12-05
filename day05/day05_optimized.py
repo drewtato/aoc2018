@@ -9,7 +9,7 @@ newinput = ''
 last = ''
 
 for letter in input:
-    if last.lower() == letter.lower() and last.islower() == letter.isupper():
+    if last.lower() == letter.lower() and last != letter:
         newinput = newinput[:-1]
         try:
             last = newinput[-1]
@@ -32,10 +32,10 @@ print(len(input))
 # count(indicies) << len(input)
 reductions = dd(lambda: [0, set()])
 
-# addif takes a letter and index and only increments reduct if 
+# addif takes an index and only increments reduct if 
 # the index hasn't been counted yet. reduct is an item from the 
 # dict reductions. The indicies are remembered in the set from above.
-def addif(reduct, index, letter):
+def addif(reduct, index):
     # Check if index is already in the set
     if not index in reduct[1]:
         # Add the index to the set (if there is a way to do this
@@ -55,7 +55,7 @@ for index,letter in enumerate(input):
     reduct = reductions[letter]
     # The current letter, obviously, would get removed if we
     # chose this letter as the best one.
-    addif(reduct, index, letter)
+    addif(reduct, index)
     
     backx = index
     forwx = index
@@ -72,11 +72,11 @@ for index,letter in enumerate(input):
             # Sometimes we hit a letter that is the same as our 'letter'.
             # Note that we do not check reductions[letter][1], aka reduct[1],
             # for this. I think this has to do with the 'cCc' example from 
-            # the prompt, but am not entirely sure. In any case, letters 
-            # already counted must not be skipped.
+            # the prompt, but am not entirely sure. In any case, letters that
+            # aren't our 'letter' must not be skipped.
             while input[backx].lower() == letter:
                 backx -= 1
-            # In front, all we have are letters like our 'letter'. Skip these.
+            # In front, skip all letters like our 'letter'.
             while input[forwx].lower() == letter:
                 forwx += 1
             
@@ -84,12 +84,11 @@ for index,letter in enumerate(input):
             backchar = input[backx]
             forwchar = input[forwx]
             
-            # Check for collapses as in Part 1. I particularly like
-            # a.islower() == b.isupper().
-            if forwchar.lower() == backchar.lower() and forwchar.islower() == backchar.isupper():
+            # Check for collapses as in Part 1.
+            if forwchar.lower() == backchar.lower() and forwchar != backchar:
                 # Add both back index and forward index to reductions.
                 for x in [backx, forwx]:
-                    addif(reduct, x, letter)
+                    addif(reduct, x)
             # If we did not find a match, then we are done collapsing.
             else:
                 break

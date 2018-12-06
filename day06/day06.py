@@ -33,71 +33,71 @@ def gridstring(grid):
     return string[:-1]
 
 
-# for i,point in enumerate(coordinates):
-#     x = point[0]
-#     y = point[1]
-#     # print(x, y)
-#     grid[y][x] = i
+for i,point in enumerate(coordinates):
+    x = point[0]
+    y = point[1]
+    # print(x, y)
+    grid[y][x] = i
     
 # print(gridstring(grid))
 # print()
 
-# infinites = set()
-# count = Co()
+infinites = set()
+count = Co()
 
-# for x,y in it.product(range(SIZE),repeat=2):
-#     # print(x,y)
-#     i = 0
-#     possibles = []
-#     if grid[y][x] != -1:
-#         possibles.append(grid[y][x])
-#     distance = 0
-#     while len(possibles) == 0:
-#         distance += 1
-#         # print(distance)
-#         sequence = [
-#             list(zip(range(distance),range(distance, 0, -1))),
-#             list(zip(range(distance, 0, -1),range(0, -distance, -1))),
-#             list(zip(range(0, -distance, -1),range(-distance, 0))),
-#             list(zip(range(-distance, 0),range(distance)))
-#         ]
-#         # print(list(it.chain.from_iterable(sequence)))
-#         for d3,d4 in it.chain.from_iterable(sequence):
-#             newx = d3 + x
-#             newy = d4 + y
-#             # print(newx,newy)
-#             # input()
-#             i += 1
-#             try: 
-#                 if newx < 0 or newy < 0:
-#                     raise IndexError
-#                 if grid[newy][newx] != -1:
-#                     possibles.append(grid[newy][newx])
-#                     # print('Append ' + str(possibles[-1]))
-#             except IndexError:
-#                 continue
+for x,y in it.product(range(SIZE),repeat=2):
+    # print(x,y)
+    i = 0
+    possibles = []
+    if grid[y][x] != -1:
+        possibles.append(grid[y][x])
+    distance = 0
+    while len(possibles) == 0:
+        distance += 1
+        # print(distance)
+        sequence = [
+            list(zip(range(distance),range(distance, 0, -1))),
+            list(zip(range(distance, 0, -1),range(0, -distance, -1))),
+            list(zip(range(0, -distance, -1),range(-distance, 0))),
+            list(zip(range(-distance, 0),range(distance)))
+        ]
+        # print(list(it.chain.from_iterable(sequence)))
+        for d3,d4 in it.chain.from_iterable(sequence):
+            newx = d3 + x
+            newy = d4 + y
+            # print(newx,newy)
+            # input()
+            i += 1
+            try: 
+                if newx < 0 or newy < 0:
+                    raise IndexError
+                if grid[newy][newx] != -1:
+                    possibles.append(grid[newy][newx])
+                    # print('Append ' + str(possibles[-1]))
+            except IndexError:
+                continue
         
-#     if len(possibles) == 1:
-#         newgrid[y][x] = possibles[0]
-#         for coord in [x,y]:
-#             if not (coord > 0 and coord < SIZE - 1):
-#                 infinites.add(possibles[0])
-#         count.update([possibles[0]])
-#     # print(gridstring(newgrid))
-#     else:
-#         print(x, y, possibles, i)
-#     # print(input())
+    if len(possibles) == 1:
+        newgrid[y][x] = possibles[0]
+        for coord in [x,y]:
+            if not (coord > 0 and coord < SIZE - 1):
+                infinites.add(possibles[0])
+        count.update([possibles[0]])
+    # print(gridstring(newgrid))
+    # else:
+    #     print(x, y, possibles, i)
+    # print(input())
 
 
 # print(gridstring(newgrid))
 # print(count)
-# for key in infinites:
-#     del count[key]
+for key in infinites:
+    del count[key]
 
-# print(count.most_common(1)[0][1])
+print(count.most_common(1)[0][1])
 
-# with open('grid.txt', 'w') as pg:
-#     pg.write(gridstring(grid))
+with open('grid.txt', 'w') as pg:
+    pg.write(gridstring(newgrid))
 
 THRESHHOLD = 10000
 area = 0
@@ -106,7 +106,6 @@ for x,y in it.product(range(SIZE),repeat=2):
     for cx,cy in coordinates:
         totaldistance += abs(x - cx)
         totaldistance += abs(y - cy)
-    newgrid[y][x] = totaldistance
     if totaldistance < THRESHHOLD:
         area += 1
     

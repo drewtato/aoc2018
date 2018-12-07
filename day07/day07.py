@@ -14,8 +14,9 @@ steps = [(line[5], line[36]) for line in inp.split('\n')]
 graph = nx.DiGraph()
 
 graph.add_edges_from(steps)
+originalGraph = graph.copy()
 
-part1 = False
+part1 = True
 if part1:
     # guessNode = 'A'
     # firstNode = None
@@ -45,6 +46,7 @@ if part1:
             
     print(s)
 
+graph = originalGraph
 timeLeft = dict([
     (chr(ord('A') + num), num + 61) for num in range(26)
 ])
@@ -55,8 +57,8 @@ workers = [None] * 5
 
 time = 0
 while graph.nodes:
-    print(f'{time}: {sorted(graph.nodes)}')
-    print(sorted(list(timeLeft.items())[:-1]))
+    # print(f'{time}: {sorted(graph.nodes)}')
+    # print(sorted(list(timeLeft.items())[:-1]))
     possibles = ''
     for node in graph.nodes:
         # print(f'check node {node} for successors')
@@ -74,8 +76,8 @@ while graph.nodes:
                 workers[index] = None
         
     m = min(map(lambda workNode: timeLeft[workNode], workers))
-    print(m)
-    print(workers)
+    # print(m)
+    # print(workers)
     for i,node in enumerate(workers):
         if node:
             timeLeft[node] -= m

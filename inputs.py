@@ -15,22 +15,22 @@ if not os.path.isfile(f'day{day:02}/day{day:02}.py'):
     shutil.copyfile('testinput.txt', f'day{day:02}/input.txt')
 
 go = '''
-                     GGGGGGGGGGGGG         OOOOOOOOO     
-                  GGG::::::::::::G       OO:::::::::OO   
-               GG:::::::::::::::G     OO:::::::::::::OO 
-             G:::::GGGGGGGG::::G    O:::::::OOO:::::::O
-           G:::::G       GGGGGG    O::::::O   O::::::O
-         G:::::G                  O:::::O     O:::::O
-        G:::::G                  O:::::O     O:::::O
-       G:::::G    GGGGGGGGGG    O:::::O     O:::::O
-      G:::::G    G::::::::G    O:::::O     O:::::O
-     G:::::G    GGGGG::::G    O:::::O     O:::::O
-    G:::::G        G::::G    O:::::O     O:::::O
-    G:::::G       G::::G    O::::::O   O::::::O
-    G:::::GGGGGGGG::::G    O:::::::OOO:::::::O
-    GG:::::::::::::::G     OO:::::::::::::OO 
-     GGG::::::GGG:::G       OO:::::::::OO   
-       GGGGGG   GGGG         OOOOOOOOO 
+                 GGGGGGGGGGGGG         OOOOOOOOO     
+              GGG::::::::::::G       OO:::::::::OO   
+           GG:::::::::::::::G     OO:::::::::::::OO 
+         G:::::GGGGGGGG::::G    O:::::::OOO:::::::O
+       G:::::G       GGGGGG    O::::::O   O::::::O
+     G:::::G                  O:::::O     O:::::O
+    G:::::G                  O:::::O     O:::::O
+   G:::::G    GGGGGGGGGG    O:::::O     O:::::O
+  G:::::G    G::::::::G    O:::::O     O:::::O
+ G:::::G    GGGGG::::G    O:::::O     O:::::O
+G:::::G        G::::G    O:::::O     O:::::O
+G:::::G       G::::G    O::::::O   O::::::O
+G:::::GGGGGGGG::::G    O:::::::OOO:::::::O
+GG:::::::::::::::G     OO:::::::::::::OO 
+ GGG::::::GGG:::G       OO:::::::::OO   
+   GGGGGG   GGGG         OOOOOOOOO 
 '''
 
 with open('auth', 'r') as auth:

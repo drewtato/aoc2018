@@ -2,6 +2,7 @@
 from collections import deque as dq
 # from collections import Counter as Co
 from collections import defaultdict as dd
+# import time
 
 with open('input.txt', 'r') as inp:
     inp = inp.read()
@@ -37,5 +38,9 @@ def play(numPlayers, last):
 
     return max(players.values())
 
+# t = time.perf_counter()
+
 print(play(numPlayers, last))
 print(play(numPlayers, last * 100))
+
+# print(f'{time.perf_counter() - t}')

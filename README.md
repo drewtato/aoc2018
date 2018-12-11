@@ -8,6 +8,9 @@ A visualization of Day 3:
 
 ![day4](day04/stats.png)
 
+A visualization for day 11:
+![day11](day11/cells.png)
+
 Stats:
 
 ```text

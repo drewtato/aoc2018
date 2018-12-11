@@ -37,6 +37,7 @@ with open('auth', 'r') as auth:
     cookies = {'session': auth.read()}
 
 while True:
+    time.sleep(15)
     input = requests.get(f'https://adventofcode.com/2018/day/{day}/input', cookies=cookies)
     if input.status_code != 200:
         print(f'{input.status_code}, retry in 15')

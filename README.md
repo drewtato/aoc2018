@@ -8,7 +8,12 @@ A visualization of Day 3:
 
 ![day4](day04/stats.png)
 
+A visualization of day 6:
+
+![day6](day06/grid.png)
+
 A visualization for day 11:
+
 ![day11](day11/cells.png)
 
 Stats:

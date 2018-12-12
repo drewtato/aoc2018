@@ -16,11 +16,15 @@ A visualization for day 11:
 
 ![day11](day11/cells.png)
 
+A visualization for day 12:
+![day12](day12/pots.png)
+
 Stats:
 
 ```text
       -------Part 1--------   -------Part 2--------
 Day       Time  Rank  Score       Time  Rank  Score
+ 12   00:51:54  1000      0   01:09:13   668      0
  11   00:17:41   696      0   00:29:36   406      0
  10   00:35:03   594      0   00:36:36   589      0
   9   00:31:00   447      0   00:31:48   129      0

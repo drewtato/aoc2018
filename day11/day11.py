@@ -13,7 +13,7 @@ serial = int(inp)
 
 SIZE = 300
 # SIZE = 10
-# serial = 3999
+# serial = 42
 
 SIZE += 1
 cells = [[0]*SIZE for _ in range(SIZE)]
@@ -31,7 +31,7 @@ for x,y in it.product(range(1,SIZE), repeat=2):
     # print(x, y, power)
     cells[y][x] = power
 
-print(sum([sum(cell) for cell in cells]))
+# print(sum([sum(cell) for cell in cells]))
     
 squares = []
 for x,y in it.product(range(1, SIZE - 3), repeat=2):

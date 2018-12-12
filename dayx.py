@@ -1,4 +1,4 @@
-# import itertools
+# import itertools as it
 # from collections import Counter as Co
 # from collections import defaultdict as dd
 # from collections import deque as dq

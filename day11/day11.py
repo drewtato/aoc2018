@@ -13,7 +13,7 @@ serial = int(inp)
 
 SIZE = 300
 # SIZE = 10
-# serial = 42
+# serial = 3999
 
 SIZE += 1
 cells = [[0]*SIZE for _ in range(SIZE)]
@@ -26,9 +26,8 @@ for x,y in it.product(range(1,SIZE), repeat=2):
     power += serial
     power *= rackID
     power %= 1000
-    power = power / 100
-    power -= 6
-    power = int(power)
+    power = int(power / 100)
+    power -= 5
     # print(x, y, power)
     cells[y][x] = power
 
@@ -55,6 +54,7 @@ print(f'{m[1]},{m[2]}')
 maxSoFar = (0, 0, 0)
 for s in range(1,301):
     print(s)
+    possible = False
     for x,y in it.product(range(1, SIZE - s), repeat=2):
         square = 0
         for dx,dy in it.product(range(s), repeat=2):

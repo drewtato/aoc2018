@@ -4,7 +4,7 @@
 # from collections import deque as dq
 from copy import deepcopy
 
-with open('input.txt', 'r') as inp:
+with open('input5.txt', 'r') as inp:
     inp = inp.read()
 
 while inp[-1].isspace():
@@ -81,6 +81,7 @@ def simulate(tracks, carts, collisions):
             newPositions[moved] = i
             
     for i in reversed(sorted(toDel)):
+        collisions.append(carts[i][0])
         del carts[i]
     return (carts, collisions)
 
@@ -104,12 +105,12 @@ def display(tracks, carts, collisions):
 # print(carts)
 # print(tracks)
 collisions = []
-# while not collisions:
-#     # print(display(tracks,carts,collisions))
-#     # print(carts)
-#     # input()
-#     carts, collisions = simulate(tracks, carts, collisions)
-# print(f'{collisions[0][0]},{collisions[0][1]}')
+while not collisions:
+    # print(display(tracks,carts,collisions))
+    # print(carts)
+    # input()
+    carts, collisions = simulate(tracks, carts, collisions)
+print(f'{collisions[0][0]},{collisions[0][1]}')
 
 while len(carts) > 1:
     # print(display(tracks,carts,[]))

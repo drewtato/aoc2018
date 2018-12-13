@@ -36,12 +36,12 @@ GG:::::::::::::::G     OO:::::::::::::OO
 with open('auth', 'r') as auth:
     cookies = {'session': auth.read()}
 
+print('Enter to fetch input')
 while True:
-    time.sleep(15)
+    input()
     input = requests.get(f'https://adventofcode.com/2018/day/{day}/input', cookies=cookies)
     if input.status_code != 200:
-        print(f'{input.status_code}, retry in 15')
-        time.sleep(15)
+        print(f'{input.status_code}, retry on enter')
     else:
         print('200, saving file!')
         print(go)

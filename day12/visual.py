@@ -23,14 +23,14 @@ data = []
 for i,line in enumerate(pots):
     for j,p in enumerate(line):
         if i == 20:
-            # if j % 100 == 0:
-            #     data.append(RED if p else GREY)
-            # else:
+            if j % 100 == 0:
+                data.append(RED if p else GREY)
+            else:
                 data.append(RED if p else BLUE)
         else:
-            # if j % 100 == 0:
-            #     data.append(GOLD if p else GREY)
-            # else:
+            if j % 100 == 0:
+                data.append(GOLD if p else GREY)
+            else:
                 data.append(GOLD if p else BLUE)
         
 sizeX = maxLen
@@ -43,8 +43,8 @@ img = img.resize((sizeX * 2, sizeY * 4))
 
 dr = ImageDraw.Draw(img)
 font = ImageFont.truetype('../assets/SourceCodePro-Light.ttf', 38)
-# botleft = (78 * 4, 27 * 2 + 1)
-# dr.rectangle([(78 * 4 + 40, 27 * 2 + 1), (500,105)], fill=BLUE)
-# dr.text(botleft, '<- 3061', RED, font)
+botleft = (230, 56)
+# dr.rectangle([(312, 55), (500,105)], fill=BLUE)
+dr.text(botleft, '<- 3061', RED, font)
 
-img.save('pots_notext.png')
+img.save('pots.png')

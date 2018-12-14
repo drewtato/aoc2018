@@ -57,7 +57,7 @@ def generate(pots, rules, gens, f):
             pass
         newpots.append(1)
         
-        pots = newpots
+        pots = dq(list(newpots)[2:])
     return getsum(pots, zeroPot)
     
 with open('pots.txt', 'w') as f:

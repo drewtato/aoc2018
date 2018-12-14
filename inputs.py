@@ -36,7 +36,7 @@ GG:::::::::::::::G     OO:::::::::::::OO
 with open('auth', 'r') as auth:
     cookies = {'session': auth.read()}
 
-print('Enter to fetch input')
+print('Enter to fetch input ', end='')
 while True:
     input()
     input = requests.get(f'https://adventofcode.com/2018/day/{day}/input', cookies=cookies)

@@ -4,7 +4,7 @@ A visualization of Day 3:
 
 ![day3](day03/fabric.png)
 
-[Link to a graph of day 4](https://gist.github.com/drewtato/891faa8b9603bc0ffd67a90faa16ecfc) (you'll probably have to download it since htmlpreview.github.io doesn't want to deal this gist)
+[Link to a graph of day 4](https://gist.github.com/drewtato/891faa8b9603bc0ffd67a90faa16ecfc) (you'll probably have to download it since htmlpreview.github.io doesn't want to deal with this gist)
 
 ![day4](day04/stats.png)
 

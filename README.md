@@ -17,6 +17,7 @@ A visualization for day 11:
 ![day11](day11/cells.png)
 
 A visualization for day 12:
+
 ![day12](day12/pots.png)
 
 Stats:

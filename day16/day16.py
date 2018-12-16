@@ -138,6 +138,9 @@ while max(map(len, possibles)) > 1:
 
 opcodes = [f[0] for f in possibles]
 
+# for op in opcodes:
+#     print(op.__name__)
+
 regs = [0,0,0,0]
 for ins in program:
     opcodes[ins[0]](ins[1:], regs)

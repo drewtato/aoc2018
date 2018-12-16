@@ -5,7 +5,7 @@
 # from collections import deque as dq
 # from copy import deepcopy
 
-with open('input.txt', 'r') as inp:
+with open('input2.txt', 'r') as inp:
     inp = inp.read()
 
 while inp[-1].isspace():

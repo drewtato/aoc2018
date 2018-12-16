@@ -4,7 +4,7 @@ import itertools as it
 # from collections import deque as dq
 from copy import deepcopy
 
-with open('input.txt', 'r') as inp:
+with open('input3.txt', 'r') as inp:
     inp = inp.read()
 
 while inp[-1].isspace():
@@ -224,7 +224,7 @@ def fight(units, taken, p=False, step=False):
                     else: 
                         goblins -= 1
 
-result = fight(deepcopy(units), deepcopy(taken))
+result = fight(deepcopy(units), deepcopy(taken), p=True)
 # print(result)
 print(result[0] * result[1])
 # print(result)

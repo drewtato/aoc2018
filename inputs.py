@@ -1,7 +1,6 @@
 import requests
 import sys
 import os
-import time
 import shutil
 
 day = int(sys.argv[1])
@@ -13,7 +12,7 @@ except FileExistsError:
 if not os.path.isfile(f'day{day:02}/day{day:02}.py'):
     shutil.copyfile('dayx.py', f'day{day:02}/day{day:02}.py')
     shutil.copyfile('testinput.txt', f'day{day:02}/input.txt')
-    inpCount = 2
+    inpCount = 3
     for i in range(2,inpCount):
         shutil.copyfile('testinput.txt', f'day{day:02}/input{i}.txt')
 

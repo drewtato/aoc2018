@@ -5,11 +5,13 @@ import itertools as it
 # from collections import deque as dq
 # from copy import deepcopy
 import sys
-
-if sys.argv[1:]:
-    PRINT = True
-else:
-    PRINT = False
+PRINT = False
+FAST = True
+for arg in sys.argv[1:]:
+    if arg == 'p':
+        PRINT = True
+    elif arg == 'f':
+        FAST = False
 
 with open('input.txt', 'r') as inp:
     inp = inp.read()
@@ -72,7 +74,7 @@ for line in inp.split('\n'):
         for x in span:
             ground[firstNum - miny][x - minx] = 1
 
-def printGround(ground):
+def printGround(ground, fp):
     for line in ground:
         for n in line:
             c = {
@@ -81,20 +83,28 @@ def printGround(ground):
                 2:'|',
                 3:'~'
             }[n]
-            print(c, end='')
-        print()
-    print()
-    input()
+            fp.write(c)
+        fp.write('\n')
+    fp.write('\n')
+    # input()
 
-def fill(ground, start, minx):
+def fill(ground, start, minx, fp):
     start -= minx
-    while True:
+    oldWater = 0
+    for i in it.count():
         try:
             drop(ground, 0, start)
         except FillEx:
             break
         if PRINT:
-            printGround(ground)
+            printGround(ground, fp)
+        water = sum([
+            sum(
+                1 if c >= 2 else 0 for c in line
+            ) for line in ground
+        ])
+        print(f'Round: {i}, Water: {water - oldWater}')
+        oldWater = water
 
 class FillEx(Exception):
     pass
@@ -112,15 +122,19 @@ def drop(ground, y, x):
     try:
         while ground[y][x] == 2:
             y += 1
-        while ground[y][x] == 0:
-            ground[y][x] = 2
-            y += 1
-        
+        if FAST:
+            while ground[y][x] == 0:
+                ground[y][x] = 2
+                y += 1
         else:
-            try:
-                dropside(ground, y-1, x)
-            except NoSpaceEx:
-                convertRow(ground, y-1, x)
+            if ground[y][x] == 0:
+                ground[y][x] = 2
+                return
+
+        try:
+            dropside(ground, y-1, x)
+        except NoSpaceEx:
+            convertRow(ground, y-1, x)
     except IndexError:
         raise OutOfBoundsEx
                 
@@ -165,26 +179,32 @@ def convertRow(ground, y, x):
     while ground [y][x] == 2:
         ground[y][x] = 3
         x += 1
+with open('output.txt', 'w') as out:
+    try:
+        if PRINT:
+            printGround(ground, out)
+        fill(ground, 500, minx, out)
+        if PRINT:
+            printGround(ground, out)
+        water = sum([
+            sum(
+                1 if c >= 2 else 0 for c in line
+            ) for line in ground
+        ])
+        retained = sum([
+            sum(
+                1 if c == 3 else 0 for c in line
+            ) for line in ground
+        ])
+        if not PRINT:
+            print(water)
+            print(retained)
 
-try:
-    fill(ground, 500, minx)
-    if PRINT:
-        printGround(ground)
-    water = sum([
-        sum(
-            1 if c >= 2 else 0 for c in line
-        ) for line in ground
-    ])
-    print(water)
-    retained = sum([
-        sum(
-            1 if c == 3 else 0 for c in line
-        ) for line in ground
-    ])
-    print(retained)
-
-except KeyboardInterrupt:
-    print('Interrputed')
-except RecursionError:
-    printGround(ground)
-    print('Too much recursion')
+    except KeyboardInterrupt:
+        if PRINT:
+            printGround(ground, out)
+        print('Interrputed')
+    except RecursionError:
+        if PRINT:
+            printGround(ground, out)
+        print('Too much recursion')

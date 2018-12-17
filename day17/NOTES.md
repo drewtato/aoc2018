@@ -33,12 +33,12 @@ I used ffmpeg but you can use moviepy or whatever you like.
 
 Creating the original video:
 
-```sh
+```bash
 ffmpeg -r 60 -f image2 -i ./img/%04d.png fill_vertical.mp4
 ```
 
 Creating the horizontal version:
 
-```sh
+```bash
 ffmpeg.exe -i ./fill_vertical.mp4 -vf 'transpose=2' fill_horizontal.mp4
 ```

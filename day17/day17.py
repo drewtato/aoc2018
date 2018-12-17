@@ -5,6 +5,8 @@ import itertools as it
 # from collections import deque as dq
 # from copy import deepcopy
 import sys
+import random
+
 PRINT = False
 FAST = True
 DEBUG = False
@@ -121,6 +123,7 @@ class NoSpaceEx(FillEx):
 
 # drop
 l = False # Keep this global so we get a nice flow
+random.seed(34693) # Answer to part 2 for determinism
 def drop(ground, y, x):
     global l
     # print('drop', y, x)
@@ -140,7 +143,7 @@ def drop(ground, y, x):
                 return
 
         try:
-            l = False if l else True
+            l = random.choice([True,False])
             dropsides(ground, y-1, x, l)
         except NoSpaceEx:
             convertRow(ground, y-1, x)

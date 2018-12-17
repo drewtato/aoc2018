@@ -1,6 +1,6 @@
 auth
 /test
 __pycache__
-/*/img
-/day17/output.txt
+/*/img*
+/day17/output*.txt
 *.gif

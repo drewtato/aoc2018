@@ -94,9 +94,9 @@ def printGround(ground, fp):
     fp.write('\n')
     # input()
 
+totalWater = 40879
 def fill(ground, start, minx, fp):
     start -= minx
-    oldWater = 0
     for i in it.count():
         try:
             drop(ground, 0, start)
@@ -110,8 +110,7 @@ def fill(ground, start, minx, fp):
                     1 if c >= 2 else 0 for c in line
                 ) for line in ground
             ])
-            print(f'Round: {i}, Water: {water - oldWater}')
-            oldWater = water
+            print(f'Round: {i}, Water left: {totalWater - water}')
 
 class FillEx(Exception):
     pass

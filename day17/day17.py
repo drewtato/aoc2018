@@ -121,7 +121,9 @@ class NoSpaceEx(FillEx):
     pass
 
 # drop
+l = False # Keep this global so we get a nice flow
 def drop(ground, y, x):
+    global l
     # print('drop', y, x)
     g = ground[y][x]
     if g == 3 or g == 1:
@@ -139,45 +141,61 @@ def drop(ground, y, x):
                 return
 
         try:
-            dropside(ground, y-1, x)
+            l = False if l else True
+            dropsides(ground, y-1, x, l)
         except NoSpaceEx:
             convertRow(ground, y-1, x)
-
+            
     except IndexError:
         raise OutOfBoundsEx
                 
-def dropside(ground, y, x):
-    lx = x - 1
+def dropsides(ground, y, x, left):
     fall = False
     bounds = False
+    if left:
+        fall, bounds = dropleft(ground, y, x, fall, bounds)
+    else:
+        fall, bounds = dropright(ground, y, x, fall, bounds)
+    if not fall:
+        if left:
+            fall, bounds = dropright(ground, y, x, fall, bounds)
+        else:
+            fall, bounds = dropleft(ground, y, x, fall, bounds)
+        if not fall:
+            if bounds:
+                raise OutOfBoundsEx
+            else:
+                raise NoSpaceEx
+
+def dropleft(ground, y, x, fall, bounds):
+    lx = x - 1
     while ground[y][lx] != 1:
         ground[y][lx] = 2
         try:
             drop(ground, y+1, lx)
             fall = True
-            break
+            return fall,bounds
         except NoSpaceEx:
             lx -= 1
         except OutOfBoundsEx:
             bounds = True
-            break
+            return fall,bounds
+    return fall,bounds
+    
+def dropright(ground, y, x, fall, bounds):
     rx = x + 1
     while ground[y][rx] != 1:
         ground[y][rx] = 2
         try: 
             drop(ground, y+1, rx)
             fall = True
-            break
+            return fall,bounds
         except NoSpaceEx:
             rx += 1
         except OutOfBoundsEx:
             bounds = True
-            break
-    if not fall:
-        if bounds:
-            raise OutOfBoundsEx
-        else:
-            raise NoSpaceEx
+            return fall,bounds
+    return fall,bounds
 
 def convertRow(ground, y, x):
     lx = x - 1
@@ -204,9 +222,8 @@ with open('output.txt', 'w') as out:
                 1 if c == 3 else 0 for c in line
             ) for line in ground
         ])
-        if not PRINT:
-            print(water)
-            print(retained)
+        print(water)
+        print(retained)
 
     except KeyboardInterrupt:
         if PRINT:

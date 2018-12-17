@@ -3,6 +3,7 @@ import itertools as it
 # from collections import defaultdict as dd
 # from collections import deque as dq
 from copy import deepcopy
+from time import sleep
 
 with open('input.txt', 'r') as inp:
     inp = inp.read()
@@ -48,15 +49,18 @@ taken = deepcopy(cavern)
 units = []
 
 for y,line in enumerate(inp.split('\n')):
-    for x,c in enumerate(line):
-        cavern[y][x] = cavernParser[c]
-        possibleUnit = unitParser[c]
-        if possibleUnit:
-            u = [y, x, possibleUnit, HP, AP]
-            units.append(u)
-            taken[y][x] = len(units) - 1
-        else:
-            taken[y][x] = cavernParser[c] - 2
+    if line:
+        for x,c in enumerate(line):
+            cavern[y][x] = cavernParser[c]
+            possibleUnit = unitParser[c]
+            if possibleUnit:
+                u = [y, x, possibleUnit, HP, AP]
+                units.append(u)
+                taken[y][x] = len(units) - 1
+            else:
+                taken[y][x] = cavernParser[c] - 2
+    else:
+        break
 
 def printCavern(taken, units):
     printableCavern = []
@@ -169,7 +173,7 @@ def move(u, units, taken):
         
         
 
-def fight(units, taken, p=False, step=False):
+def fight(units, taken, p=False, step=False, pause=0):
     moves = 0
     perfect = True
     elves = len(list(filter(lambda u: u[2] == 1, units)))
@@ -193,15 +197,22 @@ def fight(units, taken, p=False, step=False):
             printCavern(taken, units)
             if step:
                 input()
+            elif pause:
+                sleep(pause)
         
         for i,u in enumerate(units):
             if not u[3]:
                 continue
+
             if not (elves and goblins):
                 health = 0
                 for _,_,_,hp,_ in units:
                     health += hp
+                if p:
+                    print(f'Round {moves}')
+                    printCavern(taken, units)
                 return moves, health, elves, goblins, perfect
+
             dy,dx = move(u, units, taken)
             if (dy or dx):
                 newY = u[0] + dy
@@ -224,17 +235,21 @@ def fight(units, taken, p=False, step=False):
                     else: 
                         goblins -= 1
 
-result = fight(deepcopy(units), deepcopy(taken), p=True)
-# print(result)
+result = fight(deepcopy(units), deepcopy(taken), p=False)
+# rounds,health,elves,goblins,_ = result
+# print(f'Rounds: {rounds}')
+# print(f'Health: {health}')
+# print(f'Elves: {elves}')
+# print(f'Goblins: {goblins}')
+# print('Answer: ', end='')
 print(result[0] * result[1])
-# print(result)
 
 STARTAP = AP
 for ap in it.count(STARTAP, 1):
     for i,u in enumerate(units):
         if u[2] == 1:
             units[i][4] = ap
-    result = fight(deepcopy(units), deepcopy(taken))
+    result = fight(deepcopy(units), deepcopy(taken), p=False)
     # print(ap, result)
     if result[4]:
         break

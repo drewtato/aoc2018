@@ -5,7 +5,7 @@
 # from collections import deque as dq
 # from copy import deepcopy
 
-with open('input.txt', 'r') as inp:
+with open('input2.txt', 'r') as inp:
     inp = inp.read()
 
 while inp[-1].isspace():
@@ -120,6 +120,7 @@ for test in tests:
         badTests += 1
 
 print(badTests)
+    
 while max(map(len, possibles)) > 1:
     for i,fs in enumerate(possibles):
         if len(fs) == 1:
@@ -144,4 +145,5 @@ opcodes = [f[0] for f in possibles]
 regs = [0,0,0,0]
 for ins in program:
     opcodes[ins[0]](ins[1:], regs)
+
 print(regs[0])

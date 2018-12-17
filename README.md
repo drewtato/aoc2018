@@ -20,11 +20,16 @@ A visualization for day 12:
 
 ![day12](day12/pots.png)
 
+I made a [video](https://www.youtube.com/watch?v=KF3GrJb1ACE) for day 17. Here's a small version:
+
+![day17](day17/fill2_opt.gif)
+
 Stats:
 
 ```text
       -------Part 1--------   -------Part 2--------
 Day       Time  Rank  Score       Time  Rank  Score
+ 17   04:22:12   696      0   04:23:30   680      0
  16   00:52:57   570      0   01:11:22   398      0
  15   23:31:08  2044      0   23:50:51  1873      0
  14   00:19:38   509      0   01:17:19  1027      0

@@ -1,5 +1,9 @@
 # Notes on Day 17
 
+## Viewing
+
+I have uploaded a [vertical](https://www.youtube.com/watch?v=KF3GrJb1ACE) and a [horizontal](https://youtu.be/GxbrsNEsFQg) version to YouTube.
+
 ## Running `day17.py`
 
 ### Correctness

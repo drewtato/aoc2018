@@ -2,7 +2,7 @@
 
 ## Correctness
 
-The current algorithm is *very slightly* wrong (about 1% for the first part only). It sometimes stacks flowing water on top of other flowing water. This is insignificant enough that it won't cause problems for visualizing, but let it be known that it exists. Part 2 is perfect, though.
+The current algorithm is *very slightly* wrong (about 1%, sometimes, for the first part only). It sometimes stacks flowing water on top of other flowing water. This is insignificant enough that it won't cause problems for visualizing, but let it be known that it exists. Part 2 is perfect, though.
 
 ## Optimization
 

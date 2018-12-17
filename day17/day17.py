@@ -7,11 +7,17 @@ import itertools as it
 import sys
 PRINT = False
 FAST = True
+DEBUG = False
 for arg in sys.argv[1:]:
     if arg == 'p':
         PRINT = True
-    elif arg == 'f':
+    elif arg == 's':
         FAST = False
+    elif arg == 'd':
+        DEBUG = True
+    else:
+        print(f'Bad arg: {arg}')
+        sys.exit(1)
 
 with open('input.txt', 'r') as inp:
     inp = inp.read()
@@ -98,13 +104,14 @@ def fill(ground, start, minx, fp):
             break
         if PRINT:
             printGround(ground, fp)
-        water = sum([
-            sum(
-                1 if c >= 2 else 0 for c in line
-            ) for line in ground
-        ])
-        print(f'Round: {i}, Water: {water - oldWater}')
-        oldWater = water
+        if DEBUG:
+            water = sum([
+                sum(
+                    1 if c >= 2 else 0 for c in line
+                ) for line in ground
+            ])
+            print(f'Round: {i}, Water: {water - oldWater}')
+            oldWater = water
 
 class FillEx(Exception):
     pass
@@ -135,6 +142,7 @@ def drop(ground, y, x):
             dropside(ground, y-1, x)
         except NoSpaceEx:
             convertRow(ground, y-1, x)
+
     except IndexError:
         raise OutOfBoundsEx
                 

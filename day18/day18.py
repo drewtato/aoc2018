@@ -4,8 +4,24 @@ import itertools as it
 # from collections import defaultdict as dd
 # from collections import deque as dq
 from copy import deepcopy as dc
+import sys
+import random as rand
 
-with open('input.txt', 'r') as inp:
+LOOP = False
+DEBUG = False
+PRINT = False
+for arg in sys.argv[1:]:
+    if arg == 'l':
+        LOOP = True
+    elif arg == 'd':
+        DEBUG = True
+    elif arg == 'p':
+        PRINT = True
+    else:
+        print(f'No "{arg}" arg."')
+        sys.exit(1)
+
+with open('input3.txt', 'r') as inp:
     inp = inp.read()
 
 while inp[-1].isspace():
@@ -22,10 +38,17 @@ areaMap = {
 invAreaMap = {v:k for k,v in areaMap.items()}
 
 area = []
+rand.seed(200364)
+choices = [0 for _ in range(50)]
+choices.extend([1,2])
 for line in inp.split('\n'):
     row = []
     for item in line:
-        row.append(areaMap[item])
+        r = rand.choice(choices)
+        if r:
+            row.append(r)
+        else:
+            row.append(areaMap[item])
     area.append(tuple(row))
 area = tuple(area)
 
@@ -35,6 +58,8 @@ def pArea(area):
             print(invAreaMap[c], end='')
         print()
     print()
+    if DEBUG:
+        input()
 
 NEIGHBORS = [(y,x) for y,x in it.product([-1,0,1], repeat=2)]
 NEIGHBORS.remove((0,0))
@@ -99,7 +124,8 @@ def resourceValue(area):
 originalArea = dc(area)
 for _ in range(10):
     area = iterate(area)
-    # pArea(area)
+    if PRINT:
+        pArea(area)
 # pArea(area)
 rv = resourceValue(area)
 print(rv[0] * rv[1])
@@ -115,8 +141,19 @@ for i in range(CYCLES):
         break
     seen.update({area: i})
 
-# print(i, seen[area])
 j = seen[area]
+if LOOP:
+    with open('output.txt', 'w') as f:
+        for _ in range(i-j):
+            if PRINT:
+                pArea(area)
+            for line in area:
+                for c in line:
+                    f.write(invAreaMap[c])
+                f.write('\n')
+            f.write('\n')
+            area = iterate(area)
+# print(i, seen[area])
 extras = CYCLES - i - 1
 partial = extras % (i - j)
 for _ in range(partial):

@@ -21,7 +21,7 @@ for arg in sys.argv[1:]:
         print(f'No "{arg}" arg."')
         sys.exit(1)
 
-with open('input3.txt', 'r') as inp:
+with open('input.txt', 'r') as inp:
     inp = inp.read()
 
 while inp[-1].isspace():

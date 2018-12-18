@@ -3,4 +3,4 @@ auth
 __pycache__
 /*/img*
 /day*/output*
-*.gif
+/day17/*.gif

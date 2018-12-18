@@ -104,7 +104,7 @@ def iterate(area):
             elif cell == LUMBER:
                 if not (l >= 1 and t >= 1):
                     newCell = OPEN
-                
+
             newRow.append(newCell)
         newArea.append(tuple(newRow))
     return tuple(newArea)
@@ -142,6 +142,9 @@ for i in range(CYCLES):
     seen.update({area: i})
 
 j = seen[area]
+if DEBUG:
+    print(i - j)
+
 if LOOP:
     with open('output.txt', 'w') as f:
         for _ in range(i-j):

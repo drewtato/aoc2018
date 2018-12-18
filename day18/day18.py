@@ -143,7 +143,7 @@ for i in range(CYCLES):
 
 j = seen[area]
 if DEBUG:
-    print(i - j)
+    print(f'{i} - {j} = {i - j}')
 
 if LOOP:
     with open('output.txt', 'w') as f:

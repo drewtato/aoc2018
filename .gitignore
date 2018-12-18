@@ -2,5 +2,5 @@ auth
 /test
 __pycache__
 /*/img*
-/day17/output*.txt
+/day17/output*
 *.gif

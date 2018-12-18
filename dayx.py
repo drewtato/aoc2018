@@ -74,7 +74,7 @@ inp = replacer(inp, removals, replacements)
 data = []
 dataMap = dd(lambda: 0)
 dataMap.update({
-    ' ':0,
+    '.':0,
 })
 revMap = {v:k for k,v in dataMap.items()}
 for line in inp.split('\n'):

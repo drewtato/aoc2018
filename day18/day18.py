@@ -38,17 +38,17 @@ areaMap = {
 invAreaMap = {v:k for k,v in areaMap.items()}
 
 area = []
-rand.seed(200364)
-choices = [0 for _ in range(50)]
-choices.extend([1,2])
+# rand.seed(200364)
+# choices = [0 for _ in range(50)]
+# choices.extend([1,2])
 for line in inp.split('\n'):
     row = []
     for item in line:
-        r = rand.choice(choices)
-        if r:
-            row.append(r)
-        else:
-            row.append(areaMap[item])
+        # r = rand.choice(choices)
+        # if r:
+        #     row.append(r)
+        # else:
+        row.append(areaMap[item])
     area.append(tuple(row))
 area = tuple(area)
 

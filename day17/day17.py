@@ -21,7 +21,7 @@ for arg in sys.argv[1:]:
         print(f'Bad arg: {arg}')
         sys.exit(1)
 
-with open('input.txt', 'r') as inp:
+with open('input3.txt', 'r') as inp:
     inp = inp.read()
 
 while inp[-1].isspace():
@@ -137,6 +137,8 @@ def drop(ground, y, x):
             while ground[y][x] == 0:
                 ground[y][x] = 2
                 y += 1
+            if ground[y][x] == 2:
+                return
         else:
             if ground[y][x] == 0:
                 ground[y][x] = 2
@@ -214,6 +216,9 @@ with open('outputs/output.txt', 'w') as out:
         fill(ground, 500, minx, out)
         if PRINT:
             printGround(ground, out)
+
+        # printGround(ground, sys.stdout)
+
         water = sum([
             sum(
                 1 if c >= 2 else 0 for c in line

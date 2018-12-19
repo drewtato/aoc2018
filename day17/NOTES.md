@@ -6,10 +6,6 @@ I have uploaded a [vertical](https://www.youtube.com/watch?v=KF3GrJb1ACE) and a 
 
 ## Running `day17.py`
 
-### Correctness
-
-The current algorithm is *very slightly* wrong (about 1%, sometimes, for the first part only). It sometimes stacks flowing water on top of other flowing water. This is insignificant enough that it won't cause problems for visualizing, but let it be known that it exists. Part 2 is perfect.
-
 ### Optimization
 
 Only turn on options when necessary, and if you can, run with pypy3.

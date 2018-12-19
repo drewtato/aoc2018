@@ -242,7 +242,7 @@ result = fight(deepcopy(units), deepcopy(taken), p=False)
 # print(f'Elves: {elves}')
 # print(f'Goblins: {goblins}')
 # print('Answer: ', end='')
-print(result[0] * result[1])
+print(result[0], result[1])
 
 STARTAP = AP
 for ap in it.count(STARTAP, 1):
@@ -253,4 +253,4 @@ for ap in it.count(STARTAP, 1):
     # print(ap, result)
     if result[4]:
         break
-print(result[0] * result[1])
+print(result[0], result[1])

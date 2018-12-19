@@ -6,6 +6,7 @@ import itertools as it
 # from copy import deepcopy
 import sys
 import random
+import time
 
 PRINT = False
 FAST = True
@@ -209,6 +210,8 @@ def convertRow(ground, y, x):
     while ground [y][x] == 2:
         ground[y][x] = 3
         x += 1
+
+# t = time.time()
 with open('outputs/output.txt', 'w') as out:
     try:
         if PRINT:
@@ -240,3 +243,4 @@ with open('outputs/output.txt', 'w') as out:
         if PRINT:
             printGround(ground, out)
         print('Too much recursion')
+# print(f'time: {time.time() - t}')

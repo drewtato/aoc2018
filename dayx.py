@@ -11,7 +11,7 @@ from collections import defaultdict as dd
 DEBUG,PRINT,OUT,outfile,infile = False,False,False,None,'input.txt'
 for arg in sys.argv[1:]:
     if OUT:
-        outfile = arg
+        outfile = arg if arg[0] != '-' else 'output.txt'
         OUT = False
     elif arg == '-d':
         DEBUG = True

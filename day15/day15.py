@@ -5,7 +5,7 @@ import itertools as it
 from copy import deepcopy
 from time import sleep
 
-with open('input.txt', 'r') as inp:
+with open('input4.txt', 'r') as inp:
     inp = inp.read()
 
 while inp[-1].isspace():
@@ -242,7 +242,7 @@ result = fight(deepcopy(units), deepcopy(taken), p=False)
 # print(f'Elves: {elves}')
 # print(f'Goblins: {goblins}')
 # print('Answer: ', end='')
-print(result[0], result[1])
+print(result[0], result[1], result[0] * result[1])
 
 STARTAP = AP
 for ap in it.count(STARTAP, 1):
@@ -253,4 +253,4 @@ for ap in it.count(STARTAP, 1):
     # print(ap, result)
     if result[4]:
         break
-print(result[0], result[1])
+print(result[0], result[1], result[0] * result[1], ap)

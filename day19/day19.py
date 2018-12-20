@@ -8,6 +8,7 @@ from collections import defaultdict as dd
 # from collections import deque as dq
 # from copy import deepcopy as dc
 import math
+import time
 
 DEBUG,PRINT,OUT,outfile,infile = False,False,False,None,'input.txt'
 for arg in sys.argv[1:]:
@@ -137,36 +138,57 @@ opcodes = {
 #     # '\n',
 # ]
 # inp = replacer(inp, removals, replacements)
-data = []
-dataMap = dd(lambda: 0)
-dataMap.update({
-    '.':0,
-})
-revMap = {v:k for k,v in dataMap.items()}
+program = []
 for line in inp.split('\n'):
     args = line.split()
     if args[0] == '#ip':
         ipReg = int(args[1])
     else:
-        row = [args[0]]
+        row = [opcodes[args[0]]]
         row.extend(map(int, args[1:]))
-        data.append(row)
+        program.append(row)
 # print(data)
 
-def part1(ipReg,regs,data,out,revMap):
-    # info = data,out,revMap
-    # pData(*info)
-    pc = 0
-    while pc >= 0 and pc < len(data):
-        ins = data[pc]
-        opcodes[ins[0]](ins[1:],regs)
-        regs[ipReg] += 1
-        pc = regs[ipReg]
-        if pc == 1:
-            break
-    number = max(regs)
-    divisors = number + 1
-    for i in range(2, int(math.sqrt(number)) + 1):
+# ipReg: index of instruction pointer register (first line of input)
+# regs: list of 6 numbers representing registers
+# opcodes: mapping of opcodes to their respective functions
+# instructions: input parsed as list of [function pointer, arg1, arg2, arg3]
+def runProgram(ipReg,regs,instructions):
+    if DEBUG:
+        counter = 0
+        t = time.perf_counter()
+        try:
+            while counter < 100000000:
+                ins = instructions[regs[ipReg]]
+                ins[0](ins[1:],regs)
+                regs[ipReg] += 1
+                counter += 1
+        except IndexError:
+            pass
+        t = time.perf_counter() - t
+        perG = t * 10**9 / counter
+        print(f'Time: {t}\nPer 1G instructions: {perG:.8}')
+        number = max(regs)
+        print(f'Time to run all (days): {perG * 8 * number**2/10**9/60/60/24:.8}')
+    else:
+        # Instruction 1 starts the main loop. When it reaches
+        # 1, we know that the large number is in the registers.
+        while regs[ipReg] != 1:
+                ins = instructions[regs[ipReg]]
+                ins[0](ins[1:],regs)
+                regs[ipReg] += 1
+        # Not sure if the large number is in a different position, so
+        # find it by taking the max.
+        number = max(regs)
+    # Find the sum all factors of the large number (the
+    # algorithm from the input), stored in divisors.
+    root = math.sqrt(number)
+    end = int(root)
+    # If it is a perfect square, count its square root.
+    # Otherwise, initialize to zero.
+    divisors = end if root == end else 0
+    # Check all numbers from 1 to the root - 1
+    for i in range(1, end):
         if number % i == 0:
             divisors += i
             divisors += number // i
@@ -175,15 +197,14 @@ def part1(ipReg,regs,data,out,revMap):
 try:
     with fileOrStdout(outfile) as out:
         regs = [0] * 6
-        info = data,out,revMap
-        ans = part1(ipReg,regs,*info)
+        ans = runProgram(ipReg,regs,program)
         if DEBUG:
             print(regs)
         out.write(str(ans))
         out.write('\n')
         regs = [0] * 6
         regs[0] = 1
-        ans = part1(ipReg,regs,*info)
+        ans = runProgram(ipReg,regs,program)
         if DEBUG:
             print(regs)
         out.write(str(ans))

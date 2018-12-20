@@ -42,12 +42,11 @@ RED = (255,0,0)
 GREEN = (0,220,0)
 GREY = (100,100,110)
 
-WALL = GREY
-GROUND = BLUE
-DOOR = BLUE
+WALL = BLUE
+GROUND = GREY
 START = GREEN
 END = RED
-PATH = (50,50,110)
+PATH = (60,60,130)
 WIN = (-3,29)
 
 dimensions = maxy - miny + 1, maxx - minx + 1

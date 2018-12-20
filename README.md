@@ -28,11 +28,16 @@ I made a few gifs for day 18. Here's one:
 
 ![day18](day18/bigtrees.gif)
 
+The maze of day 20:
+
+![day20](day20/map.png)
+
 Stats:
 
 ```text
       -------Part 1--------   -------Part 2--------
 Day       Time  Rank  Score       Time  Rank  Score
+ 20   04:09:06   712      0   04:14:07   651      0
  19   00:22:20   316      0   02:16:31   557      0
  18   00:37:43   731      0   01:06:25   703      0
  17   04:22:12   696      0   04:23:30   680      0

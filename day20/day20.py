@@ -146,15 +146,12 @@ def addToMap(rooms,regex,y=0,x=0,index=0):
         
         index += 1
                 
-        
-        
-
 def findShortest(rooms, coord, info):
     depth = 0
     farRooms = 0
     thisRooms = set()
     thisRooms.add((0,0))
-    searchedRooms = {(0,0):depth}
+    searchedRooms = {(0,0):[depth,None]}
     while thisRooms:
         depth += 1
         nextRooms = set()
@@ -162,13 +159,20 @@ def findShortest(rooms, coord, info):
             for dy,dx in map(lambda c: coord[c], rooms[(y,x)][0]):
                 ny,nx = y+dy,x+dx
                 if (ny,nx) not in searchedRooms:
-                    searchedRooms.update({(ny,nx):depth})
+                    searchedRooms.update({(ny,nx):[depth,(y,x)]})
                     nextRooms.add((ny,nx))
                     if depth >= 1000:
                         farRooms += 1
 
         thisRooms = nextRooms
-    return depth - 1,farRooms
+    answer = [depth - 1, farRooms]
+    if DEBUG:
+        answer.append((y,x))
+        last = searchedRooms[y,x]
+        while last[1]:
+            answer.append(last[1])
+            last = searchedRooms[last[1]]
+    return answer
 
 try:
     with fileOrStdout(outfile) as out:

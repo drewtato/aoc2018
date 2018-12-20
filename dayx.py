@@ -88,8 +88,8 @@ for line in inp.split('\n'):
     data.append(row)
 # print(data)
 
-def part1(data,out,revMap):
-    info = data,out,revMap
+def part1(info):
+    # data = info[0]
     pData(*info)
 
 try:
@@ -98,7 +98,7 @@ try:
         if DEBUG:
             print(inp)
         
-        part1(*info)
+        part1(info)
 
 except KeyboardInterrupt:
     print('Interrupted')

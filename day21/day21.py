@@ -1,12 +1,12 @@
 import sys
 from contextlib import contextmanager
-from collections import defaultdict as dd
 # import os
 # import itertools as it
 # import functools as ft
 # from collections import Counter as Co
 # from collections import deque as dq
 # from copy import deepcopy as dc
+import time
 
 DEBUG,PRINT,OUT,outfile,infile = False,False,False,None,'input.txt'
 for arg in sys.argv[1:]:
@@ -24,6 +24,8 @@ for arg in sys.argv[1:]:
     else:
         print(f'No "{arg}" arg."')
         sys.exit(1)
+if OUT:
+    outfile = arg if arg[0] != '-' else 'output.txt'
 @contextmanager
 def fileOrStdout(filename=None):
     if filename:
@@ -116,11 +118,9 @@ for line in inp.split('\n'):
         data.append(op)
 
 def pState(data, regs, ip, out):
-    if DEBUG:
+    if PRINT:
         out.write(f'{regs[ip]: 3} {data[regs[ip]][0].__name__} {regs}')
         out.write('\n')
-        if DEBUG:
-            input()
 
 def run(data, regs, ip, out):
     counter = 0
@@ -135,10 +135,10 @@ def run(data, regs, ip, out):
         counter += 1
         if regs[ip] == 28:
             val = regs[3]
-            if first:
-                print(val)
-                first = False
             if val in possibles:
+                if first:
+                    print(val)
+                    first = False
                 # print(f'{counter}, {val}, {val - last}')
                 print(last)
                 break
@@ -148,7 +148,10 @@ def run(data, regs, ip, out):
 try:
     with fileOrStdout(outfile) as out:
         regs = [0] * 6
+        if DEBUG:
+            t = time.perf_counter()
         run(data,regs, ip, out)
-
+        if DEBUG:
+            print(f'Time: {time.perf_counter() - t}')
 except KeyboardInterrupt:
     print('Interrupted')

@@ -155,72 +155,33 @@ directions = [
 #     for v in vals:
 #         terrEquip[v].append(key)
 
-# ROCKY = 0
-# WET = 1
-# NARROW = 2
+# ROCKY = 0 torch,climb
+# WET = 1 climb,neither
+# NARROW = 2 torch,neither
 terrEquip = [
-    [CLIMB,TORCH],
-    [CLIMB,NEITHER],
-    [TORCH,NEITHER]
+    [1,1,0],
+    [0,1,1],
+    [1,0,1]
 ]
 FACTOR = 1
 
 def route(cave,info):
     _,tx,ty = info[0]
-    # candidates: 0 is (weighted time, time), 1 is y, 2 is x, 3 is equip
+    # candidates: 0 is (weighted time, time), 1 is y, 2 is x, 3 is equip, 4 is last
     candidates = []
-    explored = {}
-    hq.heappush(candidates, (0,0,0,0,TORCH,None))
+    explored = {(0,0):([None,None,None],[0,7,7])}
+    hq.heappush(candidates, ((0,0),0,0,TORCH,None))
     lastwei = 0
     try:
         while True:
-            wei,dur,y,x,equip,last = hq.heappop(candidates)
+            (wei,dur),y,x,equip,last = hq.heappop(candidates)
+            # print(wei,dur,y,x,equip)
+            # input()
             if DEBUG and wei > lastwei:
-                print(dur,wei,y,x,equip,len(candidates),len(explored))
+                print(wei,dur,ty-y,tx-x)
                 lastwei = wei
-            if (y,x) == (ty,tx):
-                if equip != TORCH:
-                    dur += 7
-                    hq.heappush(candidates, (dur, dur,y,x,TORCH,last))
-                    continue
-                return dur,y,x,equip,last,explored
-            try:
-                equipSoFar = explored[y,x][1]
-                try:
-                    pastDur = equipSoFar[equip]
-                    if dur > pastDur:
-                        continue
-                    explored[y,x][1][equip] = dur
-                except IndexError:
-                    less = True
-                    for v in explored[y,x][1]:
-                        if dur > v + 7:
-                            less = False
-                    if less:
-                        explored[y,x][1][equip] = dur
-                    else:
-                        continue
-                
-            except KeyError:
-                equipVals = [1023] * 3
-                equipVals[equip] = dur
-                explored.update({(y,x):(last,equipVals)})
-            dur += 1
-            for dy,dx in directions:
-                ny,nx = dy+y,dx+x
-                try:
-                    _,_,terrain = region(cave,ny,nx,*info[0])
-                except IndexError:
-                    continue
-                weighted = (abs(ny-ty) + abs(nx-tx)) * FACTOR + dur
-                if equip in terrEquip[terrain]:
-                    if equip != TORCH:
-                        weighted += 7
-                    hq.heappush(candidates, (weighted, dur,ny,nx,equip,(y,x)))
-                else:
-                    for newEquip in terrEquip[terrain]:
-                        extra = 7 if newEquip != TORCH else 0
-                        hq.heappush(candidates, (weighted + extra + 7, dur+7,ny,nx,newEquip,(y,x)))
+            
+            
     except MemoryError:
         print(f'Ran out of memory. candidates: {len(candidates)} explored: {len(explored)}')
 
@@ -235,14 +196,10 @@ with fileOrStdout(outfile) as out:
         risk = sum([sum([terrain for _,_,terrain in row]) for row in cave])
         print(risk)
         
-        dur,_,_,equip,last,explored = route(cave,info)
-        duration = dur
-        while last:
-            print(last,duration)
-            last,duration = explored[last]
-        pCave(cave,*info)
+        dur,equip,last,explored = route(cave,info)
         print(dur)
 
-    except (KeyboardInterrupt, TypeError) as e:
-        pCave(cave,*info)
+    except KeyboardInterrupt as e:
         print('Interrupted', e)
+
+    pCave(cave,*info)

@@ -118,14 +118,14 @@ def region(cave,y,x,depth,tx,ty):
                 _,erosionLeft,_ = region(cave,y,x-1,*info)
             except IndexError:
                 geo = y * 48271
-            try: 
+            try:
                 _,erosionAbove,_ = region(cave,y-1,x,*info)
                 if not geo:
                     geo = erosionAbove * erosionLeft
             except IndexError:
                 geo = x * 16807
             geo = 0 if (y,x) == (ty,tx) else geo
-        
+
         erosion = (geo + depth) % 20183
         terrain = erosion % 3
         regionStats = [geo,erosion,terrain]
@@ -134,7 +134,6 @@ def region(cave,y,x,depth,tx,ty):
         except IndexError:
             cave.append([regionStats])
         return regionStats
-        
 
 TORCH = 0
 CLIMB = 1
@@ -163,13 +162,18 @@ terrEquip = [
     [0,1,1],
     [1,0,1]
 ]
+terrSwitch = [
+    {0:1,1:0},
+    {1:2,2:1},
+    {0:2,2:0}
+]
 FACTOR = 1
 
 def route(cave,info):
     _,tx,ty = info[0]
     # candidates: 0 is (weighted time, time), 1 is y, 2 is x, 3 is equip, 4 is last
     candidates = []
-    explored = {(0,0):([None,None,None],[0,7,7])}
+    explored = {}
     hq.heappush(candidates, ((0,0),0,0,TORCH,None))
     lastwei = 0
     try:
@@ -177,11 +181,57 @@ def route(cave,info):
             (wei,dur),y,x,equip,last = hq.heappop(candidates)
             # print(wei,dur,y,x,equip)
             # input()
-            if DEBUG and wei > lastwei:
+            # if DEBUG and wei > lastwei
+            if DEBUG:
                 print(wei,dur,ty-y,tx-x)
                 lastwei = wei
-            
-            
+            if (y,x) == (ty,tx):
+                if equip != TORCH:
+                    cand = (wei+7,dur+7),y,x,TORCH,last
+                    hq.heappush(candidates,cand)
+                return dur
+            curterr = region(cave,y,x,*info[0])[2]
+            try:
+                if dur > explored[y,x,equip][0]:
+                    continue
+            except KeyError:
+                pass
+            othereq = terrSwitch[curterr][equip]
+            try:
+                if dur > explored[y,x,othereq][0] + 7:
+                    continue
+            except:
+                pass
+            explored[y,x,equip] = dur,last
+            dur += 1
+            for dy,dx in directions:
+                ny,nx = y+dy,x+dx
+                try:
+                    nextterr = region(cave,ny,nx,*info[0])[2]
+                except IndexError:
+                    continue
+                if terrEquip[nextterr][equip]:
+                    nexteq = equip
+                else:
+                    dur += 7
+                    nexteq = terrSwitch[curterr][equip]
+                try:
+                    if dur >= explored[ny,nx,nexteq][0]:
+                        continue
+                except KeyError:
+                    pass
+                othereq = terrSwitch[nextterr][nexteq]
+                try:
+                    if dur >= explored[ny,nx,othereq][0] + 7:
+                        continue
+                except KeyError:
+                    pass
+                explored[ny,nx,nexteq] = dur,(y,x)
+                weight = abs(ny-ty) + abs(nx-tx) + dur
+                weight += 7 if nexteq != TORCH else 0
+                cand = (weight,dur),ny,nx,nexteq,(y,x)
+                hq.heappush(candidates,cand)
+
     except MemoryError:
         print(f'Ran out of memory. candidates: {len(candidates)} explored: {len(explored)}')
 
@@ -192,11 +242,11 @@ with fileOrStdout(outfile) as out:
         if DEBUG:
             print(data)
             # pCave(cave,*info)
-        
+
         risk = sum([sum([terrain for _,_,terrain in row]) for row in cave])
         print(risk)
-        
-        dur,equip,last,explored = route(cave,info)
+
+        dur = route(cave,info)
         print(dur)
 
     except KeyboardInterrupt as e:

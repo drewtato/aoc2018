@@ -53,7 +53,11 @@ with open(infile, 'r') as inp:
     inp = inp.read()
 while inp[-1].isspace():
     inp = inp[:-1]
-def pCave(cave, data, out, revMap):
+def pCave(cave, data, out, revMap, exp=[]):
+    y,x,eq = *data[1:],TORCH
+    pathPieces = {}
+    while (y,x) != (0,0):
+        pass
     if PRINT:
         for y,row in enumerate(cave):
             for x,[_,_,c] in enumerate(row):
@@ -65,7 +69,7 @@ def pCave(cave, data, out, revMap):
                     out.write(revMap[c])
             out.write('\n')
         out.write('\n')
-
+    
 removals = ['depth:targ ']
 replacements = [
     # '<',
@@ -187,22 +191,25 @@ def route(cave,info):
                 lastwei = wei
             if (y,x) == (ty,tx):
                 if equip != TORCH:
-                    cand = (wei+7,dur+7),y,x,TORCH,last
+                    dur += 7
+                    cand = (dur,dur),y,x,TORCH,last
+                    explored[y,x,TORCH] = dur,(y,x),equip
                     hq.heappush(candidates,cand)
-                return dur
+                return dur,explored
             curterr = region(cave,y,x,*info[0])[2]
             try:
-                if dur > explored[y,x,equip][0]:
+                if dur >= explored[y,x,equip][0]:
+                    print('why')
                     continue
             except KeyError:
                 pass
             othereq = terrSwitch[curterr][equip]
             try:
-                if dur > explored[y,x,othereq][0] + 7:
+                if dur >= explored[y,x,othereq][0] + 7:
+                    print('other tool better')
                     continue
-            except:
+            except KeyError:
                 pass
-            explored[y,x,equip] = dur,last
             dur += 1
             for dy,dx in directions:
                 ny,nx = y+dy,x+dx
@@ -226,7 +233,7 @@ def route(cave,info):
                         continue
                 except KeyError:
                     pass
-                explored[ny,nx,nexteq] = dur,(y,x)
+                explored[ny,nx,nexteq] = dur,(y,x),equip
                 weight = abs(ny-ty) + abs(nx-tx) + dur
                 weight += 7 if nexteq != TORCH else 0
                 cand = (weight,dur),ny,nx,nexteq,(y,x)
@@ -246,7 +253,8 @@ with fileOrStdout(outfile) as out:
         risk = sum([sum([terrain for _,_,terrain in row]) for row in cave])
         print(risk)
 
-        dur = route(cave,info)
+        dur,explored = route(cave,info)
+        pCave(cave,*info,exp=explored)
         print(dur)
 
     except KeyboardInterrupt as e:

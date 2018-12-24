@@ -41,12 +41,12 @@ with open('auth', 'r') as auth:
 print('Enter to fetch input ', end='')
 while True:
     input()
-    input = requests.get(f'https://adventofcode.com/2018/day/{day}/input', cookies=cookies)
-    if input.status_code != 200:
-        print(f'{input.status_code}, retry on enter')
+    inp = requests.get(f'https://adventofcode.com/2018/day/{day}/input', cookies=cookies)
+    if inp.status_code != 200:
+        print(f'{inp.status_code}, retry on enter')
     else:
         print('200, saving file!')
         print(go)
         with open(f'day{day:02}/input.txt', 'wb') as f:
-            f.write(input.content)
+            f.write(inp.content)
         break

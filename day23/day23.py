@@ -7,6 +7,7 @@ from collections import defaultdict as dd
 # from collections import Counter as Co
 # from collections import deque as dq
 # from copy import deepcopy as dc
+import math
 
 DEBUG,PRINT,OUT,outfile,infile = False,False,False,None,'input.txt'
 for arg in sys.argv[1:]:
@@ -114,30 +115,18 @@ def allPointsDist(dist):
             yield x,y,-zleft
 
 def part2(data):
-    dist = 136
-    maxSoFar = 0
-    maxLocation = None
-    maxDist = 100000
-    try:
-        while dist < maxDist:
-            for point in allPointsDist(dist):
-                inRange = 0
-                for x,y,z,r in data:
-                    center = x,y,z
-                    distance = 0
-                    for p1,p2 in zip(point,center):
-                        distance += abs(p1 - p2)
-                    if r >= distance:
-                        inRange += 1
-                if inRange > maxSoFar:
-                    maxSoFar = inRange
-                    maxLocation = point
-                    if DEBUG:
-                        print(maxSoFar, maxLocation)
-            dist += 1
-    except KeyboardInterrupt:
-        pass
-    return maxLocation
+    selected = []
+    spans = []
+    for axis in range(3):
+        spans.append((
+            min(data, key=lambda item: item[axis])[axis],
+            max(data, key=lambda item: item[axis])[axis]
+        ))
+    
+    return split(data, spans)
+
+def split(data, spans):
+    raise NotImplementedError
 
 try:
     with fileOrStdout(outfile) as out:
@@ -150,7 +139,7 @@ try:
         best = part2(data)
         if DEBUG:
             print(best)
-        print(sum([abs(p) for p in best]))
+        # print(sum([abs(p) for p in best]))
 
 except KeyboardInterrupt:
     print('Interrupted')

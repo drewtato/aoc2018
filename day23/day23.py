@@ -114,10 +114,10 @@ def allPointsDist(dist):
             yield x,y,-zleft
 
 def part2(data):
-    dist = 0
+    dist = 136
     maxSoFar = 0
     maxLocation = None
-    maxDist = 1000
+    maxDist = 100000
     try:
         while dist < maxDist:
             for point in allPointsDist(dist):
@@ -148,6 +148,8 @@ try:
         inrad = part1(info)
         print(inrad)
         best = part2(data)
+        if DEBUG:
+            print(best)
         print(sum([abs(p) for p in best]))
 
 except KeyboardInterrupt:

@@ -91,8 +91,7 @@ for line in inp.split('\n'):
 def part1(info):
     # data = info[0]
     # pData(*info)
-    m,best,bpos = max([(r,i,(x,y,z))\
-    for i,(x,y,z,r) in enumerate(data)])
+    m,bpos = max([(r,(x,y,z)) for x,y,z,r in data])
     inrad = 0
     for nano in data:
         distance = 0
@@ -102,27 +101,54 @@ def part1(info):
             inrad += 1
     return inrad
 
+def allPointsDist(dist):
+    if DEBUG:
+        print(f'Searching dist {dist}')
+    for x in range(-dist, dist + 1):
+        leftover = dist - abs(x)
+        for y in range(-leftover, leftover + 1):
+            zleft = leftover - abs(y)
+            # print(x,y,zleft)
+            yield x,y,zleft
+            # print(x,y,-zleft)
+            yield x,y,-zleft
+
 def part2(data):
-    maxes = [-1000000000] * 3
-    mins = [1000000000] * 3
-    for item in data:
-        for i,dim in enumerate(item[:-1]):
-            maxes[i] = max(maxes[i],dim)
-            mins[i] = min(mins[i],dim)
-    best = (0,0)
-    
-    return best
+    dist = 0
+    maxSoFar = 0
+    maxLocation = None
+    maxDist = 1000
+    try:
+        while dist < maxDist:
+            for point in allPointsDist(dist):
+                inRange = 0
+                for x,y,z,r in data:
+                    center = x,y,z
+                    distance = 0
+                    for p1,p2 in zip(point,center):
+                        distance += abs(p1 - p2)
+                    if r >= distance:
+                        inRange += 1
+                if inRange > maxSoFar:
+                    maxSoFar = inRange
+                    maxLocation = point
+                    if DEBUG:
+                        print(maxSoFar, maxLocation)
+            dist += 1
+    except KeyboardInterrupt:
+        pass
+    return maxLocation
 
 try:
     with fileOrStdout(outfile) as out:
         info = data,out,revMap
-#        if DEBUG:
-#            print(inp)
+        # if DEBUG:
+        #     print(data)
         
         inrad = part1(info)
         print(inrad)
         best = part2(data)
-        print(best[1])
+        print(sum([abs(p) for p in best]))
 
 except KeyboardInterrupt:
     print('Interrupted')

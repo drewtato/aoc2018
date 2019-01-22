@@ -102,3 +102,5 @@ try:
 
 except KeyboardInterrupt:
     print('Interrupted')
+except NotImplementedError:
+    print('Not implemented')

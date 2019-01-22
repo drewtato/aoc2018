@@ -2,7 +2,7 @@ import sys
 from contextlib import contextmanager
 from collections import defaultdict as dd
 # import os
-# import itertools as it
+import itertools as it
 # import functools as ft
 # from collections import Counter as Co
 # from collections import deque as dq
@@ -102,31 +102,99 @@ def part1(info):
             inrad += 1
     return inrad
 
-def allPointsDist(dist):
-    if DEBUG:
-        print(f'Searching dist {dist}')
-    for x in range(-dist, dist + 1):
-        leftover = dist - abs(x)
-        for y in range(-leftover, leftover + 1):
-            zleft = leftover - abs(y)
-            # print(x,y,zleft)
-            yield x,y,zleft
-            # print(x,y,-zleft)
-            yield x,y,-zleft
-
-def part2(data):
-    selected = []
-    spans = []
-    for axis in range(3):
-        spans.append((
-            min(data, key=lambda item: item[axis])[axis],
-            max(data, key=lambda item: item[axis])[axis]
-        ))
+def part2(info):
+    nanobots,_,_ = info
     
-    return split(data, spans)
+    # Find a bounding square that contains all nanobots
+    maxCube = nanobots[0][0]
+    minCube = nanobots[0][0]
+    for nano in nanobots:
+        for dimension in range(3):
+            maxCube = max(nano[dimension], maxCube)
+            minCube = min(nano[dimension], minCube)
+    maxDimension = max(maxCube, -minCube)
+    # Round up to nearest power of 2 for ease of division
+    maxDimension = 2 ** math.ceil(math.log2(maxDimension))
+    
+    # Set initial values
+    topleft = [-maxDimension,-maxDimension,-maxDimension]
+    # Recurse
+    closest,count = split(maxDimension * 2, topleft, nanobots, 0)
+    if DEBUG:
+        print(f'{closest} is in range of {count} bots.')
+    return sum(map(abs,closest))
 
-def split(data, spans):
-    raise NotImplementedError
+# Now that I got the answer, I realize that this method is best for sparsely
+# populated spaces, where the number of bots in range of the ideal point is 
+# is much less than the total number of bots. What I should have done is 
+# check all spaces that contain all bots, then all - 1 bots, etc.
+def split(size, topleft, nanobots, bestSoFar):
+    # If this is only one square
+    if size == 1:
+        if DEBUG:
+            print(f'Point at {topleft} has {len(nanobots)}.')
+            # input()
+        return topleft,len(nanobots)
+    
+    # Get the next 8 quadrants
+    quads = quadrants(size, topleft)
+    # List of next argument lists
+    nextArgs = []
+    for quad in quads:
+        nextList = list(pruneBots(*quad,nanobots))
+        if len(nextList) <= bestSoFar:
+            continue
+        nextArgs.append((*quad,nextList))
+    
+    newClosest,newCount = [0,0,0],0
+    
+    nextArgs = sortedByDistance(nextArgs)
+    for argList in nextArgs:
+        closest,count = split(*argList,bestSoFar)
+        if count > bestSoFar:
+            newClosest = closest
+            newCount = count
+            bestSoFar = count
+    
+    return newClosest,newCount
+            
+
+def sortedByDistance(argList):
+    sortedArgs = sorted(argList, key=sortFn)
+    return sortedArgs
+
+def sortFn(args):
+    size,topleft,botList = args
+    center = [(d + size // 2) - 1 for d in topleft]
+    distance = sum(map(abs,center))
+    return distance,len(botList),topleft
+
+def quadrants(size, topleft):
+    x,y,z = topleft
+    if size % 2 != 0:
+        print(f'{size} is not divisible by 2 :P')
+        raise Exception
+    newSize = size // 2
+    for dx,dy,dz in it.product([0,newSize], repeat=3):
+        yield newSize,[x+dx,y+dy,z+dz]
+
+def pruneBots(size, topleft, nanobots):
+    for bot in nanobots:
+        if intersects(size, topleft, bot):
+            # print(f'{bot} is in range')
+            yield bot
+        # else:
+        #     print(f'{bot} is not in range')
+
+def intersects(size, topleft, bot):
+    botright = [d + size - 1 for d in topleft]
+    penalty = 0
+    for mincube,maxcube,pos in zip(topleft,botright,bot):
+        if pos > maxcube:
+            penalty += pos - maxcube
+        elif pos < mincube:
+            penalty += mincube - pos
+    return penalty <= bot[-1]
 
 try:
     with fileOrStdout(outfile) as out:
@@ -136,10 +204,10 @@ try:
         
         inrad = part1(info)
         print(inrad)
-        best = part2(data)
-        if DEBUG:
-            print(best)
-        # print(sum([abs(p) for p in best]))
+        best = part2(info)
+        print(best)
 
 except KeyboardInterrupt:
     print('Interrupted')
+except NotImplementedError:
+    print('Not implemented')

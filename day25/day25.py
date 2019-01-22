@@ -86,36 +86,69 @@ for line in inp.split('\n'):
 # print(data)
 
 def part1(info):
-    # data = info[0]
-    groups = []
-    done = False
-    for point in data:
-        for nears in it.product(range(-3,4),repeat=4):
-            news = []
-            for p,n in zip(point,nears):
-                news.append(p+n)
-            news = tuple(news)
-            for g in groups:
-                if news in g:
-                    g.add(point)
-                    done = True
-                    break
-            if done:
-                break
-        groups.append(set())
-        groups[-1].add(point)
-        if done:
-            break
-    return len(groups)
+    data = info[0]
+    unionSet = [-1] * len(data)
+    for p,o in getUnions(data):
+        union(p,o,unionSet)
 
+    if DEBUG:
+        print(unionSet)
+    
+    return numOfGroups(unionSet)
+
+def union(first,second,unionSet):
+    # if DEBUG:
+    #     print(first,second)
+    while unionSet[first] >= 0:
+        first = unionSet[first]
+    while unionSet[second] >= 0:
+        second = unionSet[second]
+    # if DEBUG:
+    #     print(first,second)
+    
+    if first == second:
+        return
+    
+    if unionSet[first] < unionSet[second]:
+        # if DEBUG:
+        #     print('<')
+        unionSet[second] = first
+    elif unionSet[second] < unionSet[first]:
+        # if DEBUG:
+        #     print('>')
+        unionSet[first] = second
+    else:
+        # if DEBUG:
+        #     print('=')
+        unionSet[first] = second
+        unionSet[second] -= 1
+    if DEBUG:
+        print(unionSet)
+
+def getUnions(points):
+    for (i,p),(j,o) in it.combinations(enumerate(points), 2):
+        if inRange(p,o):
+            yield i,j
+
+def numOfGroups(groups):
+    return sum(1 for _ in filter(lambda item: item < 0, groups))
+
+def inRange(first,second):
+    distance = 0
+    for f,s in zip(first,second):
+        distance += abs(f - s)
+    return distance <= 3
+    
 try:
     with fileOrStdout(outfile) as out:
         info = data,out
-        if DEBUG:
-            print(data)
+        # if DEBUG:
+        #     print(data)
         
         constel = part1(info)
         print(constel)
 
 except KeyboardInterrupt:
     print('Interrupted')
+except NotImplementedError:
+    print('Not implemented')

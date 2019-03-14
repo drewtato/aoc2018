@@ -1,5 +1,17 @@
 # Advent of Code 2018
 
+This is a repository of my solutions to [Advent of Code 2018](https://adventofcode.com/2018) by [Eric Wastl](https://twitter.com/ericwastl). All of the included code was written completely by me, with some help from the [subreddit](https://www.reddit.com/r/adventofcode/) and also friends on Discord. Of course, some imported packages were not written by me, but I tried to keep those relatively infrequent. Exceptions were the Python Standard Library, which I used as much as possible, and [Pillow](https://python-pillow.org/) for creating the images.
+
+I was able to finish almost all of the days on the day they came out, and finished the whole thing in January instead of October like last year. Huge improvement! 😝
+
+Some of the days require manual intervention/interpretation or are input specific (like day 10), but I only did this when there was a large time advantage. I did fix day 24 to give an answer without intervention, which was one of the most interesting ones because of the infinite loop.
+
+My favorite ones were probably the cellular automata ones (visualizations below).
+
+I'm hoping by next year I'll have a lot more experience with this programming in general and will be able to make it on the leaderboard for once. Happy coding to everyone else; see you next year!
+
+## Visualizations
+
 A visualization of Day 3:
 
 ![day3](day03/fabric.png)
